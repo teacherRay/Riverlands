@@ -1,0 +1,70 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_pier_deck"]
+albedo_color = Color(0.48, 0.36, 0.25, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="mesh_pier_deck"]
+material = SubResource("mat_pier_deck")
+size = Vector3(2.2, 0.2, 7.0)
+
+[sub_resource type="StandardMaterial3D" id="mat_piling"]
+albedo_color = Color(0.32, 0.23, 0.16, 1)
+roughness = 0.95
+
+[sub_resource type="CylinderMesh" id="mesh_piling"]
+material = SubResource("mat_piling")
+top_radius = 0.12
+bottom_radius = 0.12
+height = 2.5
+radial_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="mat_bollard"]
+albedo_color = Color(0.2, 0.2, 0.22, 1)
+roughness = 0.6
+metallic = 0.6
+
+[sub_resource type="CylinderMesh" id="mesh_bollard"]
+material = SubResource("mat_bollard")
+top_radius = 0.08
+bottom_radius = 0.08
+height = 0.35
+radial_segments = 6
+
+[node name="Pier" type="Node3D"]
+
+[node name="Deck" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("mesh_pier_deck")
+
+[node name="Piling1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, -0.2, -2.5)
+mesh = SubResource("mesh_piling")
+
+[node name="Piling2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, -0.2, -2.5)
+mesh = SubResource("mesh_piling")
+
+[node name="Piling3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, -0.2, 0)
+mesh = SubResource("mesh_piling")
+
+[node name="Piling4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, -0.2, 0)
+mesh = SubResource("mesh_piling")
+
+[node name="Piling5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, -0.2, 2.5)
+mesh = SubResource("mesh_piling")
+
+[node name="Piling6" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, -0.2, 2.5)
+mesh = SubResource("mesh_piling")
+
+[node name="Bollard1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 1.05, 3.2)
+mesh = SubResource("mesh_bollard")
+
+[node name="Bollard2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 1.05, 3.2)
+mesh = SubResource("mesh_bollard")

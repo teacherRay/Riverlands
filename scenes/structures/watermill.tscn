@@ -1,0 +1,81 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/Rotator.gd" id="1_rotator"]
+
+[sub_resource type="StandardMaterial3D" id="mat_mill_wall"]
+albedo_color = Color(0.46, 0.32, 0.22, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="mesh_mill_wall"]
+material = SubResource("mat_mill_wall")
+size = Vector3(3.6, 2.8, 3.2)
+
+[sub_resource type="StandardMaterial3D" id="mat_mill_roof"]
+albedo_color = Color(0.72, 0.28, 0.16, 1)
+roughness = 0.8
+
+[sub_resource type="PrismMesh" id="mesh_mill_roof"]
+material = SubResource("mat_mill_roof")
+size = Vector3(4.0, 1.6, 3.6)
+
+[sub_resource type="StandardMaterial3D" id="mat_wheel"]
+albedo_color = Color(0.28, 0.19, 0.13, 1)
+roughness = 0.85
+
+[sub_resource type="CylinderMesh" id="mesh_axle"]
+material = SubResource("mat_wheel")
+top_radius = 0.2
+bottom_radius = 0.2
+height = 1.0
+radial_segments = 6
+
+[sub_resource type="BoxMesh" id="mesh_paddle"]
+material = SubResource("mat_wheel")
+size = Vector3(0.5, 2.6, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="mat_chute"]
+albedo_color = Color(0.35, 0.25, 0.18, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="mesh_chute"]
+material = SubResource("mat_chute")
+size = Vector3(0.7, 0.2, 2.5)
+
+[node name="Watermill" type="Node3D"]
+
+[node name="MillHouse" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+mesh = SubResource("mesh_mill_wall")
+
+[node name="Roof" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6, 0)
+mesh = SubResource("mesh_mill_roof")
+
+[node name="WaterChute" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, -2.1, 2.2, -0.6)
+mesh = SubResource("mesh_chute")
+
+[node name="WaterWheel" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.3, 0)
+script = ExtResource("1_rotator")
+rotation_axis = Vector3(1, 0, 0)
+speed = 1.6
+
+[node name="Axle" type="MeshInstance3D" parent="WaterWheel"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 0)
+mesh = SubResource("mesh_axle")
+
+[node name="Paddle1" type="MeshInstance3D" parent="WaterWheel"]
+mesh = SubResource("mesh_paddle")
+
+[node name="Paddle2" type="MeshInstance3D" parent="WaterWheel"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0)
+mesh = SubResource("mesh_paddle")
+
+[node name="Paddle3" type="MeshInstance3D" parent="WaterWheel"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+mesh = SubResource("mesh_paddle")
+
+[node name="Paddle4" type="MeshInstance3D" parent="WaterWheel"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0)
+mesh = SubResource("mesh_paddle")

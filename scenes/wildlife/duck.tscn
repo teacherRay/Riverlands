@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/DuckWander.gd" id="1_wander"]
+
+[sub_resource type="StandardMaterial3D" id="mat_duck_body"]
+albedo_color = Color(0.42, 0.28, 0.18, 1)
+roughness = 0.8
+
+[sub_resource type="SphereMesh" id="mesh_duck_body"]
+material = SubResource("mat_duck_body")
+radius = 0.28
+height = 0.45
+radial_segments = 6
+rings = 3
+
+[sub_resource type="StandardMaterial3D" id="mat_duck_head"]
+albedo_color = Color(0.12, 0.42, 0.22, 1)
+roughness = 0.6
+
+[sub_resource type="SphereMesh" id="mesh_duck_head"]
+material = SubResource("mat_duck_head")
+radius = 0.16
+height = 0.28
+radial_segments = 6
+rings = 3
+
+[sub_resource type="StandardMaterial3D" id="mat_beak"]
+albedo_color = Color(0.96, 0.75, 0.12, 1)
+roughness = 0.6
+
+[sub_resource type="PrismMesh" id="mesh_beak"]
+material = SubResource("mat_beak")
+size = Vector3(0.12, 0.18, 0.08)
+
+[node name="Duck" type="Node3D"]
+script = ExtResource("1_wander")
+swim_radius = 5.0
+swim_speed = 0.9
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.8, 0, 0, 0, 1.2, 0, 0.1, 0)
+mesh = SubResource("mesh_duck_body")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.32, 0.22)
+mesh = SubResource("mesh_duck_head")
+
+[node name="Beak" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0.28, 0.38)
+mesh = SubResource("mesh_beak")

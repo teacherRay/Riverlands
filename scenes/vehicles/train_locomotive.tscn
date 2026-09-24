@@ -1,0 +1,72 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_loco_red"]
+albedo_color = Color(0.82, 0.16, 0.14, 1)
+roughness = 0.6
+
+[sub_resource type="CylinderMesh" id="mesh_boiler"]
+material = SubResource("mat_loco_red")
+top_radius = 0.55
+bottom_radius = 0.55
+height = 2.0
+radial_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="mat_loco_black"]
+albedo_color = Color(0.18, 0.18, 0.2, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="mesh_cab"]
+material = SubResource("mat_loco_black")
+size = Vector3(1.3, 1.4, 1.1)
+
+[sub_resource type="CylinderMesh" id="mesh_chimney"]
+material = SubResource("mat_loco_black")
+top_radius = 0.18
+bottom_radius = 0.14
+height = 0.6
+radial_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="mat_gold"]
+albedo_color = Color(0.9, 0.75, 0.2, 1)
+roughness = 0.3
+metallic = 0.7
+
+[sub_resource type="SphereMesh" id="mesh_dome"]
+material = SubResource("mat_gold")
+radius = 0.25
+height = 0.4
+radial_segments = 6
+rings = 3
+
+[sub_resource type="StandardMaterial3D" id="mat_smoke"]
+albedo_color = Color(0.92, 0.94, 0.96, 0.85)
+roughness = 0.9
+
+[sub_resource type="SphereMesh" id="mesh_smoke_puff"]
+material = SubResource("mat_smoke")
+radius = 0.28
+height = 0.5
+radial_segments = 5
+rings = 3
+
+[node name="TrainLocomotive" type="Node3D"]
+
+[node name="Boiler" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0.8, 0.35)
+mesh = SubResource("mesh_boiler")
+
+[node name="Cab" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, -1.0)
+mesh = SubResource("mesh_cab")
+
+[node name="Chimney" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 1.0)
+mesh = SubResource("mesh_chimney")
+
+[node name="Dome" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0.3)
+mesh = SubResource("mesh_dome")
+
+[node name="SmokePuff" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0.85)
+mesh = SubResource("mesh_smoke_puff")

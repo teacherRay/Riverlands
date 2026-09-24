@@ -1,0 +1,33 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_trunk"]
+albedo_color = Color(0.38, 0.25, 0.16, 1)
+roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="mesh_trunk"]
+material = SubResource("mat_trunk")
+top_radius = 0.15
+bottom_radius = 0.2
+height = 1.2
+radial_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="mat_leaves"]
+albedo_color = Color(0.36, 0.63, 0.2, 1)
+roughness = 0.8
+
+[sub_resource type="SphereMesh" id="mesh_canopy"]
+material = SubResource("mat_leaves")
+radius = 1.05
+height = 1.9
+radial_segments = 6
+rings = 4
+
+[node name="TreeDeciduous" type="Node3D"]
+
+[node name="Trunk" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("mesh_trunk")
+
+[node name="Canopy" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+mesh = SubResource("mesh_canopy")

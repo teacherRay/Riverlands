@@ -1,0 +1,39 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_bus_yellow"]
+albedo_color = Color(0.95, 0.72, 0.12, 1)
+roughness = 0.6
+
+[sub_resource type="BoxMesh" id="mesh_bus_body"]
+material = SubResource("mat_bus_yellow")
+size = Vector3(1.1, 0.9, 2.5)
+
+[sub_resource type="StandardMaterial3D" id="mat_white_top"]
+albedo_color = Color(0.96, 0.96, 0.96, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="mesh_bus_roof"]
+material = SubResource("mat_white_top")
+size = Vector3(1.12, 0.15, 2.45)
+
+[sub_resource type="StandardMaterial3D" id="mat_bus_window"]
+albedo_color = Color(0.2, 0.3, 0.42, 1)
+roughness = 0.2
+
+[sub_resource type="BoxMesh" id="mesh_bus_windows"]
+material = SubResource("mat_bus_window")
+size = Vector3(1.12, 0.32, 2.1)
+
+[node name="VehicleBus" type="Node3D"]
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("mesh_bus_body")
+
+[node name="Roof" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+mesh = SubResource("mesh_bus_roof")
+
+[node name="Windows" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72, 0.05)
+mesh = SubResource("mesh_bus_windows")

@@ -1,0 +1,65 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_tractor_green"]
+albedo_color = Color(0.24, 0.52, 0.22, 1)
+roughness = 0.6
+
+[sub_resource type="BoxMesh" id="mesh_tractor_body"]
+material = SubResource("mat_tractor_green")
+size = Vector3(0.9, 0.6, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="mat_tire"]
+albedo_color = Color(0.15, 0.15, 0.16, 1)
+roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="mesh_rear_wheel"]
+material = SubResource("mat_tire")
+top_radius = 0.55
+bottom_radius = 0.55
+height = 0.28
+radial_segments = 8
+
+[sub_resource type="CylinderMesh" id="mesh_front_wheel"]
+material = SubResource("mat_tire")
+top_radius = 0.35
+bottom_radius = 0.35
+height = 0.2
+radial_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="mat_exhaust"]
+albedo_color = Color(0.25, 0.25, 0.28, 1)
+roughness = 0.4
+metallic = 0.6
+
+[sub_resource type="CylinderMesh" id="mesh_exhaust"]
+material = SubResource("mat_exhaust")
+top_radius = 0.04
+bottom_radius = 0.04
+height = 0.7
+radial_segments = 6
+
+[node name="VehicleTractor" type="Node3D"]
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+mesh = SubResource("mesh_tractor_body")
+
+[node name="RearWheelLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.55, 0.55, -0.4)
+mesh = SubResource("mesh_rear_wheel")
+
+[node name="RearWheelRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.55, 0.55, -0.4)
+mesh = SubResource("mesh_rear_wheel")
+
+[node name="FrontWheelLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.5, 0.35, 0.5)
+mesh = SubResource("mesh_front_wheel")
+
+[node name="FrontWheelRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.5, 0.35, 0.5)
+mesh = SubResource("mesh_front_wheel")
+
+[node name="Exhaust" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 1.1, 0.4)
+mesh = SubResource("mesh_exhaust")

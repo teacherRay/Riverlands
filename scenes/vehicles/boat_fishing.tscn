@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/WaterBob.gd" id="1_bob"]
+
+[sub_resource type="StandardMaterial3D" id="mat_hull_white"]
+albedo_color = Color(0.94, 0.95, 0.96, 1)
+roughness = 0.6
+
+[sub_resource type="BoxMesh" id="mesh_hull"]
+material = SubResource("mat_hull_white")
+size = Vector3(1.6, 0.9, 3.8)
+
+[sub_resource type="StandardMaterial3D" id="mat_hull_red"]
+albedo_color = Color(0.78, 0.18, 0.16, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="mesh_keel"]
+material = SubResource("mat_hull_red")
+size = Vector3(1.5, 0.35, 3.7)
+
+[sub_resource type="StandardMaterial3D" id="mat_cabin_wood"]
+albedo_color = Color(0.85, 0.85, 0.88, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="mesh_cabin"]
+material = SubResource("mat_cabin_wood")
+size = Vector3(1.2, 0.8, 1.4)
+
+[sub_resource type="StandardMaterial3D" id="mat_mast"]
+albedo_color = Color(0.35, 0.25, 0.18, 1)
+roughness = 0.8
+
+[sub_resource type="CylinderMesh" id="mesh_mast"]
+material = SubResource("mat_mast")
+top_radius = 0.05
+bottom_radius = 0.08
+height = 2.4
+radial_segments = 6
+
+[node name="BoatFishing" type="Node3D"]
+script = ExtResource("1_bob")
+bob_amplitude = 0.06
+bob_frequency = 1.6
+
+[node name="Hull" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+mesh = SubResource("mesh_hull")
+
+[node name="Keel" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
+mesh = SubResource("mesh_keel")
+
+[node name="Cabin" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, -0.6)
+mesh = SubResource("mesh_cabin")
+
+[node name="Mast" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0.7)
+mesh = SubResource("mesh_mast")

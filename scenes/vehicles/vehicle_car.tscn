@@ -1,0 +1,27 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_car_red"]
+albedo_color = Color(0.85, 0.22, 0.18, 1)
+roughness = 0.5
+
+[sub_resource type="BoxMesh" id="mesh_car_body"]
+material = SubResource("mat_car_red")
+size = Vector3(0.9, 0.5, 1.8)
+
+[sub_resource type="StandardMaterial3D" id="mat_cabin"]
+albedo_color = Color(0.2, 0.28, 0.38, 1)
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="mesh_car_cabin"]
+material = SubResource("mat_cabin")
+size = Vector3(0.78, 0.45, 0.95)
+
+[node name="VehicleCar" type="Node3D"]
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+mesh = SubResource("mesh_car_body")
+
+[node name="Cabin" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -0.15)
+mesh = SubResource("mesh_car_cabin")

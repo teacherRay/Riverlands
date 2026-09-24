@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_reed"]
+albedo_color = Color(0.65, 0.69, 0.28, 1)
+roughness = 0.7
+
+[sub_resource type="CylinderMesh" id="mesh_stalk"]
+material = SubResource("mat_reed")
+top_radius = 0.025
+bottom_radius = 0.04
+height = 1.3
+radial_segments = 4
+
+[node name="Reeds" type="Node3D"]
+
+[node name="Stalk1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+mesh = SubResource("mesh_stalk")
+
+[node name="Stalk2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.98, 0.17, 0, -0.17, 0.98, 0, 0, 0, 1, 0.15, 0.6, 0.1)
+mesh = SubResource("mesh_stalk")
+
+[node name="Stalk3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.96, 0, -0.26, 0, 1, 0, 0.26, 0, 0.96, -0.12, 0.6, 0.15)
+mesh = SubResource("mesh_stalk")
+
+[node name="Stalk4" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.97, -0.12, 0.2, 0.13, 0.99, -0.04, -0.19, 0.06, 0.98, -0.1, 0.62, -0.12)
+mesh = SubResource("mesh_stalk")

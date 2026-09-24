@@ -1,0 +1,67 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_wall"]
+albedo_color = Color(0.95, 0.93, 0.88, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="mesh_wall"]
+material = SubResource("mat_wall")
+size = Vector3(2.2, 1.6, 2.0)
+
+[sub_resource type="StandardMaterial3D" id="mat_roof"]
+albedo_color = Color(0.82, 0.28, 0.16, 1)
+roughness = 0.8
+
+[sub_resource type="PrismMesh" id="mesh_roof"]
+material = SubResource("mat_roof")
+size = Vector3(2.5, 1.2, 2.2)
+
+[sub_resource type="StandardMaterial3D" id="mat_chimney"]
+albedo_color = Color(0.55, 0.2, 0.14, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="mesh_chimney"]
+material = SubResource("mat_chimney")
+size = Vector3(0.35, 0.9, 0.35)
+
+[sub_resource type="StandardMaterial3D" id="mat_door"]
+albedo_color = Color(0.32, 0.18, 0.1, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="mesh_door"]
+material = SubResource("mat_door")
+size = Vector3(0.45, 0.8, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="mat_window"]
+albedo_color = Color(0.56, 0.78, 0.92, 1)
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="mesh_window"]
+material = SubResource("mat_window")
+size = Vector3(0.45, 0.45, 0.06)
+
+[node name="Cottage" type="Node3D"]
+
+[node name="Walls" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("mesh_wall")
+
+[node name="Roof" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
+mesh = SubResource("mesh_roof")
+
+[node name="Chimney" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, 2.3, -0.4)
+mesh = SubResource("mesh_chimney")
+
+[node name="Door" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 1.02)
+mesh = SubResource("mesh_door")
+
+[node name="Window1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, 0.9, 1.02)
+mesh = SubResource("mesh_window")
+
+[node name="Window2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.65, 0.9, 1.02)
+mesh = SubResource("mesh_window")

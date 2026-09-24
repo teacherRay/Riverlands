@@ -1,0 +1,164 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/GameHUD.gd" id="1_hud"]
+
+[sub_resource type="StyleBoxFlat" id="style_panel"]
+bg_color = Color(0.12, 0.14, 0.18, 0.75)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 12.0
+expand_margin_top = 8.0
+expand_margin_right = 12.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="style_btn"]
+bg_color = Color(0.2, 0.24, 0.3, 0.85)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 8.0
+expand_margin_top = 4.0
+expand_margin_right = 8.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="style_btn_hover"]
+bg_color = Color(0.3, 0.38, 0.5, 0.95)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 8.0
+expand_margin_top = 4.0
+expand_margin_right = 8.0
+expand_margin_bottom = 4.0
+
+[node name="GameHUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_hud")
+
+[node name="TopPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 260.0
+offset_bottom = 120.0
+theme_override_styles/panel = SubResource("style_panel")
+
+[node name="VBox" type="VBoxContainer" parent="TopPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Title" type="Label" parent="TopPanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "RIVERLANDS"
+
+[node name="Subtitle" type="Label" parent="TopPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.9, 1)
+theme_override_font_sizes/font_size = 12
+text = "Low-Poly Island Diorama"
+
+[node name="TimeRow" type="HBoxContainer" parent="TopPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LabelTime" type="Label" parent="TopPanel/VBox/TimeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.45, 1)
+theme_override_font_sizes/font_size = 14
+text = "10:00"
+
+[node name="BtnDayNight" type="Button" parent="TopPanel/VBox/TimeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("style_btn")
+theme_override_styles/hover = SubResource("style_btn_hover")
+text = "Pause Time"
+
+[node name="BottomPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -380.0
+offset_top = -65.0
+offset_right = 380.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("style_panel")
+
+[node name="HBox" type="HBoxContainer" parent="BottomPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="BtnOverview" type="Button" parent="BottomPanel/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("style_btn")
+theme_override_styles/hover = SubResource("style_btn_hover")
+text = "1: Overview"
+
+[node name="BtnLake" type="Button" parent="BottomPanel/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("style_btn")
+theme_override_styles/hover = SubResource("style_btn_hover")
+text = "2: Central Lake"
+
+[node name="BtnTown" type="Button" parent="BottomPanel/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("style_btn")
+theme_override_styles/hover = SubResource("style_btn_hover")
+text = "3: SW Town & Viaduct"
+
+[node name="BtnSawmill" type="Button" parent="BottomPanel/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("style_btn")
+theme_override_styles/hover = SubResource("style_btn_hover")
+text = "4: Sawmill & Forest"
+
+[node name="BtnFarm" type="Button" parent="BottomPanel/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("style_btn")
+theme_override_styles/hover = SubResource("style_btn_hover")
+text = "5: Farm & Windmill"
+
+[node name="HintPanel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -340.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 60.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 0.9)
+theme_override_font_sizes/font_size = 11
+text = "WASD/Arrows: Pan | Right Drag / Q-E: Orbit
+Wheel / R-F: Zoom | 1-5: Landmark Views"
+horizontal_alignment = 2

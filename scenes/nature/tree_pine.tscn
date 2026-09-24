@@ -1,0 +1,55 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_trunk"]
+albedo_color = Color(0.36, 0.22, 0.15, 1)
+roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="mesh_trunk"]
+material = SubResource("mat_trunk")
+top_radius = 0.12
+bottom_radius = 0.18
+height = 1.0
+radial_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="mat_leaves"]
+albedo_color = Color(0.14, 0.36, 0.17, 1)
+roughness = 0.8
+
+[sub_resource type="CylinderMesh" id="mesh_cone1"]
+material = SubResource("mat_leaves")
+top_radius = 0.0
+bottom_radius = 1.2
+height = 1.2
+radial_segments = 6
+
+[sub_resource type="CylinderMesh" id="mesh_cone2"]
+material = SubResource("mat_leaves")
+top_radius = 0.0
+bottom_radius = 0.95
+height = 1.0
+radial_segments = 6
+
+[sub_resource type="CylinderMesh" id="mesh_cone3"]
+material = SubResource("mat_leaves")
+top_radius = 0.0
+bottom_radius = 0.7
+height = 0.85
+radial_segments = 6
+
+[node name="TreePine" type="Node3D"]
+
+[node name="Trunk" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("mesh_trunk")
+
+[node name="Leaves1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+mesh = SubResource("mesh_cone1")
+
+[node name="Leaves2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85, 0)
+mesh = SubResource("mesh_cone2")
+
+[node name="Leaves3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.45, 0)
+mesh = SubResource("mesh_cone3")

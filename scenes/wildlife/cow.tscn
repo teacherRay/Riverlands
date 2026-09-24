@@ -1,0 +1,55 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_cow_body"]
+albedo_color = Color(0.96, 0.95, 0.92, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="mesh_cow_body"]
+material = SubResource("mat_cow_body")
+size = Vector3(0.9, 0.9, 1.6)
+
+[sub_resource type="StandardMaterial3D" id="mat_cow_spot"]
+albedo_color = Color(0.12, 0.12, 0.14, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="mesh_spot"]
+material = SubResource("mat_cow_spot")
+size = Vector3(0.92, 0.5, 0.6)
+
+[sub_resource type="BoxMesh" id="mesh_head"]
+material = SubResource("mat_cow_body")
+size = Vector3(0.65, 0.65, 0.7)
+
+[sub_resource type="BoxMesh" id="mesh_leg"]
+material = SubResource("mat_cow_spot")
+size = Vector3(0.2, 0.65, 0.2)
+
+[node name="Cow" type="Node3D"]
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+mesh = SubResource("mesh_cow_body")
+
+[node name="Spot" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0.1)
+mesh = SubResource("mesh_spot")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0.95)
+mesh = SubResource("mesh_head")
+
+[node name="LegFL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.35, 0.6)
+mesh = SubResource("mesh_leg")
+
+[node name="LegFR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.35, 0.6)
+mesh = SubResource("mesh_leg")
+
+[node name="LegBL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.35, -0.6)
+mesh = SubResource("mesh_leg")
+
+[node name="LegBR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.35, -0.6)
+mesh = SubResource("mesh_leg")

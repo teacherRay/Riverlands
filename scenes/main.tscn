@@ -1,0 +1,387 @@
+[gd_scene format=3 uid="uid://dsuisuihemu1v"]
+
+[ext_resource type="Script" uid="uid://dk8seh022rgp2" path="res://scripts/DayNightCycle.gd" id="1_daynight"]
+[ext_resource type="Script" uid="uid://cwnvgcav0c47p" path="res://scripts/CameraController.gd" id="2_camera"]
+[ext_resource type="PackedScene" path="res://scenes/world/island_terrain.tscn" id="3_terrain"]
+[ext_resource type="PackedScene" path="res://scenes/structures/cottage.tscn" id="4_cottage"]
+[ext_resource type="PackedScene" path="res://scenes/structures/lighthouse.tscn" id="5_lighthouse"]
+[ext_resource type="PackedScene" path="res://scenes/structures/windmill.tscn" id="6_windmill"]
+[ext_resource type="PackedScene" path="res://scenes/structures/watermill.tscn" id="7_watermill"]
+[ext_resource type="PackedScene" path="res://scenes/structures/sawmill.tscn" id="8_sawmill"]
+[ext_resource type="PackedScene" path="res://scenes/structures/barn.tscn" id="9_barn"]
+[ext_resource type="PackedScene" path="res://scenes/structures/pier.tscn" id="10_pier"]
+[ext_resource type="PackedScene" path="res://scenes/structures/viaduct_arch.tscn" id="11_viaduct"]
+[ext_resource type="PackedScene" path="res://scenes/structures/tunnel_portal.tscn" id="12_tunnel"]
+[ext_resource type="PackedScene" path="res://scenes/nature/tree_pine.tscn" id="13_pine"]
+[ext_resource type="PackedScene" path="res://scenes/nature/tree_deciduous.tscn" id="14_deciduous"]
+[ext_resource type="PackedScene" path="res://scenes/nature/reeds.tscn" id="15_reeds"]
+[ext_resource type="PackedScene" path="res://scenes/nature/rock.tscn" id="16_rock"]
+[ext_resource type="PackedScene" path="res://scenes/wildlife/duck.tscn" id="17_duck"]
+[ext_resource type="PackedScene" path="res://scenes/wildlife/cow.tscn" id="18_cow"]
+[ext_resource type="PackedScene" path="res://scenes/wildlife/sheep.tscn" id="19_sheep"]
+[ext_resource type="PackedScene" path="res://scenes/vehicles/train_locomotive.tscn" id="20_loco"]
+[ext_resource type="PackedScene" path="res://scenes/vehicles/train_carriage.tscn" id="21_carriage"]
+[ext_resource type="PackedScene" path="res://scenes/vehicles/vehicle_bus.tscn" id="22_bus"]
+[ext_resource type="PackedScene" path="res://scenes/vehicles/vehicle_truck.tscn" id="23_truck"]
+[ext_resource type="PackedScene" path="res://scenes/vehicles/vehicle_car.tscn" id="24_car"]
+[ext_resource type="PackedScene" path="res://scenes/vehicles/vehicle_tractor.tscn" id="25_tractor"]
+[ext_resource type="PackedScene" path="res://scenes/vehicles/boat_fishing.tscn" id="26_boat"]
+[ext_resource type="PackedScene" path="res://scenes/ui/game_hud.tscn" id="27_hud"]
+[ext_resource type="Script" uid="uid://b5wbr315u16ob" path="res://scripts/TrainController.gd" id="28_train_ctrl"]
+[ext_resource type="Script" uid="uid://i10ux55mafpj" path="res://scripts/TrafficManager.gd" id="29_traffic_ctrl"]
+[ext_resource type="Script" uid="uid://hhdb7ns1atjr" path="res://scripts/TrackGenerator.gd" id="30_track_gen"]
+[ext_resource type="Script" uid="uid://c12k77gmm86my" path="res://scripts/RoadGenerator.gd" id="31_road_gen"]
+
+[sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
+sky_top_color = Color(0.35, 0.65, 0.98, 1)
+sky_horizon_color = Color(0.72, 0.85, 0.98, 1)
+ground_bottom_color = Color(0.18, 0.35, 0.48, 1)
+ground_horizon_color = Color(0.68, 0.82, 0.94, 1)
+
+[sub_resource type="Sky" id="sky_res"]
+sky_material = SubResource("sky_mat")
+
+[sub_resource type="Environment" id="env_res"]
+background_mode = 2
+sky = SubResource("sky_res")
+ambient_light_source = 3
+ambient_light_color = Color(0.9, 0.94, 0.98, 1)
+ambient_light_energy = 0.75
+tonemap_mode = 2
+ssao_enabled = true
+glow_enabled = true
+glow_intensity = 0.25
+
+[sub_resource type="Curve3D" id="railway_curve"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -42, 4.8, 26, 0, 0, 0, 0, 0, 0, -48, 3.5, 8, 0, 0, 0, 0, 0, 0, -44, 4, -15, 0, 0, 0, 0, 0, 0, -32, 5, -32, 0, 0, 0, 0, 0, 0, -12, 6.2, -42, 0, 0, 0, 0, 0, 0, 8, 6.5, -44, 0, 0, 0, 0, 0, 0, 28, 5.5, -34, 0, 0, 0, 0, 0, 0, 44, 4.2, -14, 0, 0, 0, 0, 0, 0, 46, 3.8, 12, 0, 0, 0, 0, 0, 0, 36, 4.8, 28, 0, 0, 0, 0, 0, 0, 16, 4.5, 38, 0, 0, 0, 0, 0, 0, -14, 4.2, 40, 0, 0, 0, 0, 0, 0, -32, 4.5, 34, 0, 0, 0, 0, 0, 0, -42, 4.8, 26),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 14
+
+[sub_resource type="Curve3D" id="road_curve"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -36, 2.5, 24, 0, 0, 0, 0, 0, 0, -34, 2.8, 2, 0, 0, 0, 0, 0, 0, -28, 3.2, -12, 0, 0, 0, 0, 0, 0, -10, 3.5, -24, 0, 0, 0, 0, 0, 0, 12, 3.5, -22, 0, 0, 0, 0, 0, 0, 26, 3.2, -6, 0, 0, 0, 0, 0, 0, 28, 2.8, 16, 0, 0, 0, 0, 0, 0, 22, 2.5, 28, 0, 0, 0, 0, 0, 0, -2, 2.4, 30, 0, 0, 0, 0, 0, 0, -24, 2.5, 28, 0, 0, 0, 0, 0, 0, -36, 2.5, 24),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 11
+
+[node name="Main" type="Node3D" unique_id=1834211988]
+
+[node name="DayNightCycle" type="Node3D" parent="." unique_id=876398288]
+script = ExtResource("1_daynight")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="DayNightCycle" unique_id=1286282457]
+transform = Transform3D(0.819152, -0.40558, 0.40558, 0, 0.707107, 0.707107, -0.573576, -0.579228, 0.579228, 0, 45, 0)
+light_color = Color(1, 0.98, 0.92, 1)
+light_energy = 1.35
+shadow_enabled = true
+shadow_bias = 0.03
+directional_shadow_max_distance = 200.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="DayNightCycle" unique_id=1172288657]
+environment = SubResource("env_res")
+
+[node name="CameraRig" type="Node3D" parent="." unique_id=1382079300]
+transform = Transform3D(0.707107, -0.40558, 0.579228, 0, 0.819152, 0.573576, -0.707107, -0.40558, 0.579228, 0, 0, 0)
+script = ExtResource("2_camera")
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig" unique_id=2125768793]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 85)
+current = true
+fov = 35.0
+far = 400.0
+
+[node name="World" type="Node3D" parent="." unique_id=1764196565]
+
+[node name="IslandTerrain" parent="World" unique_id=311685573 instance=ExtResource("3_terrain")]
+
+[node name="Towns" type="Node3D" parent="World" unique_id=1246949390]
+
+[node name="TownSW" type="Node3D" parent="World/Towns" unique_id=2085840747]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 1.2, 34)
+
+[node name="Cottage1" parent="World/Towns/TownSW" unique_id=577042197 instance=ExtResource("4_cottage")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -2, 0, 0)
+
+[node name="Cottage2" parent="World/Towns/TownSW" unique_id=331077707 instance=ExtResource("4_cottage")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 2.5, 0, -1.5)
+
+[node name="Cottage3" parent="World/Towns/TownSW" unique_id=948557063 instance=ExtResource("4_cottage")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 3.2)
+
+[node name="Pier" parent="World/Towns/TownSW" unique_id=1799539931 instance=ExtResource("10_pier")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -4.5, -0.3, 4.5)
+
+[node name="Lighthouse" parent="World/Towns/TownSW" unique_id=331279071 instance=ExtResource("5_lighthouse")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 8)
+
+[node name="Boat1" parent="World/Towns/TownSW" unique_id=583260941 instance=ExtResource("26_boat")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -5.5, -0.2, 8.5)
+
+[node name="Boat2" parent="World/Towns/TownSW" unique_id=777193218 instance=ExtResource("26_boat")]
+transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, -10.5, -0.2, 4.5)
+
+[node name="TownSE" type="Node3D" parent="World/Towns" unique_id=1903983618]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 1.2, 34)
+
+[node name="Cottage1" parent="World/Towns/TownSE" unique_id=689687282 instance=ExtResource("4_cottage")]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -1.5, 0, 0)
+
+[node name="Cottage2" parent="World/Towns/TownSE" unique_id=1801126775 instance=ExtResource("4_cottage")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 2.5, 0, 1)
+
+[node name="Lighthouse" parent="World/Towns/TownSE" unique_id=11846280 instance=ExtResource("5_lighthouse")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 6)
+
+[node name="Pier" parent="World/Towns/TownSE" unique_id=573820184 instance=ExtResource("10_pier")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 5, -0.3, 5)
+
+[node name="Boat1" parent="World/Towns/TownSE" unique_id=856665019 instance=ExtResource("26_boat")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 8, -0.2, 9.5)
+
+[node name="TownEast" type="Node3D" parent="World/Towns" unique_id=1826326104]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, 1.2, -8)
+
+[node name="Cottage1" parent="World/Towns/TownEast" unique_id=1569883169 instance=ExtResource("4_cottage")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 0, 0)
+
+[node name="Cottage2" parent="World/Towns/TownEast" unique_id=1785259777 instance=ExtResource("4_cottage")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 3)
+
+[node name="Lighthouse" parent="World/Towns/TownEast" unique_id=2118451879 instance=ExtResource("5_lighthouse")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, -1)
+
+[node name="Pier" parent="World/Towns/TownEast" unique_id=231551245 instance=ExtResource("10_pier")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6, -0.3, 2.5)
+
+[node name="Boat1" parent="World/Towns/TownEast" unique_id=1983717912 instance=ExtResource("26_boat")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, -0.2, 6)
+
+[node name="TownNorth" type="Node3D" parent="World/Towns" unique_id=1154678258]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1.2, -50)
+
+[node name="Cottage1" parent="World/Towns/TownNorth" unique_id=115794260 instance=ExtResource("4_cottage")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0, 0)
+
+[node name="Lighthouse" parent="World/Towns/TownNorth" unique_id=193468371 instance=ExtResource("5_lighthouse")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -4)
+
+[node name="Pier" parent="World/Towns/TownNorth" unique_id=548998828 instance=ExtResource("10_pier")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -0.3, -5)
+
+[node name="TownWest" type="Node3D" parent="World/Towns" unique_id=298651914]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 1.2, -8)
+
+[node name="Cottage1" parent="World/Towns/TownWest" unique_id=1561608720 instance=ExtResource("4_cottage")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 0, 0)
+
+[node name="Lighthouse" parent="World/Towns/TownWest" unique_id=549082544 instance=ExtResource("5_lighthouse")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0, -2)
+
+[node name="Pier" parent="World/Towns/TownWest" unique_id=30795225 instance=ExtResource("10_pier")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7, -0.3, 1.5)
+
+[node name="Industries" type="Node3D" parent="World" unique_id=826169564]
+
+[node name="FarmWest" type="Node3D" parent="World/Industries" unique_id=245222599]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2.8, -10)
+
+[node name="Barn" parent="World/Industries/FarmWest" unique_id=1688730462 instance=ExtResource("9_barn")]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 0, 0, 0)
+
+[node name="Windmill" parent="World/Industries/FarmWest" unique_id=1742344445 instance=ExtResource("6_windmill")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -3)
+
+[node name="Tractor" parent="World/Industries/FarmWest" unique_id=1169934533 instance=ExtResource("25_tractor")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -4.5, 0, 2.5)
+
+[node name="Cow1" parent="World/Industries/FarmWest" unique_id=1181844349 instance=ExtResource("18_cow")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 4, 0, 5)
+
+[node name="Cow2" parent="World/Industries/FarmWest" unique_id=539310095 instance=ExtResource("18_cow")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 7.5, 0, 6)
+
+[node name="Cow3" parent="World/Industries/FarmWest" unique_id=1976892349 instance=ExtResource("18_cow")]
+transform = Transform3D(0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, 2, 0, 8)
+
+[node name="FarmEast" type="Node3D" parent="World/Industries" unique_id=638297941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 2.8, -8)
+
+[node name="Windmill" parent="World/Industries/FarmEast" unique_id=835670872 instance=ExtResource("6_windmill")]
+
+[node name="Sheep1" parent="World/Industries/FarmEast" unique_id=1979444445 instance=ExtResource("19_sheep")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 4, 0, 3)
+
+[node name="Sheep2" parent="World/Industries/FarmEast" unique_id=174702994 instance=ExtResource("19_sheep")]
+transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, 6, 0, 4.5)
+
+[node name="Sheep3" parent="World/Industries/FarmEast" unique_id=2134431627 instance=ExtResource("19_sheep")]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 3, 0, 6.5)
+
+[node name="Watermill" parent="World/Industries" unique_id=797483737 instance=ExtResource("7_watermill")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -18, 1.8, 16)
+
+[node name="Sawmill" parent="World/Industries" unique_id=770918961 instance=ExtResource("8_sawmill")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 34, 2.5, 18)
+
+[node name="Truck" parent="World/Industries" unique_id=2022433577 instance=ExtResource("23_truck")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 38, 2.5, 22)
+
+[node name="BridgesAndTunnels" type="Node3D" parent="World" unique_id=202688850]
+
+[node name="ViaductSW" parent="World/BridgesAndTunnels" unique_id=1742694120 instance=ExtResource("11_viaduct")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -26, 0.2, 28)
+
+[node name="ViaductSE" parent="World/BridgesAndTunnels" unique_id=418329226 instance=ExtResource("11_viaduct")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 24, 0.2, 27)
+
+[node name="TunnelNorthWest" parent="World/BridgesAndTunnels" unique_id=231320386 instance=ExtResource("12_tunnel")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -20, 5.2, -37)
+
+[node name="TunnelNorthEast" parent="World/BridgesAndTunnels" unique_id=2101899674 instance=ExtResource("12_tunnel")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 18, 5.6, -39)
+
+[node name="Nature" type="Node3D" parent="World" unique_id=1064001919]
+
+[node name="Reeds1" parent="World/Nature" unique_id=1497118344 instance=ExtResource("15_reeds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1.55, 6)
+
+[node name="Reeds2" parent="World/Nature" unique_id=428463178 instance=ExtResource("15_reeds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1.55, 9)
+
+[node name="Reeds3" parent="World/Nature" unique_id=1467904726 instance=ExtResource("15_reeds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1.55, 6)
+
+[node name="Reeds4" parent="World/Nature" unique_id=2049819186 instance=ExtResource("15_reeds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1.55, -8)
+
+[node name="Reeds5" parent="World/Nature" unique_id=1636577823 instance=ExtResource("15_reeds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.55, -12)
+
+[node name="Reeds6" parent="World/Nature" unique_id=701500671 instance=ExtResource("15_reeds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 1.55, -3)
+
+[node name="Reeds7" parent="World/Nature" unique_id=1495925279 instance=ExtResource("15_reeds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 1.55, -2)
+
+[node name="ForestSawmill" type="Node3D" parent="World/Nature" unique_id=370207249]
+
+[node name="Pine1" parent="World/Nature/ForestSawmill" unique_id=1226691297 instance=ExtResource("13_pine")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 2.6, 14)
+
+[node name="Pine2" parent="World/Nature/ForestSawmill" unique_id=356514494 instance=ExtResource("13_pine")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 28, 2.5, 22)
+
+[node name="Pine3" parent="World/Nature/ForestSawmill" unique_id=1016929360 instance=ExtResource("13_pine")]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 39, 2.6, 14)
+
+[node name="Pine4" parent="World/Nature/ForestSawmill" unique_id=1988722331 instance=ExtResource("13_pine")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 42, 2.7, 24)
+
+[node name="Pine5" parent="World/Nature/ForestSawmill" unique_id=1608772150 instance=ExtResource("13_pine")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 2.7, 26)
+
+[node name="Pine6" parent="World/Nature/ForestSawmill" unique_id=931208074 instance=ExtResource("13_pine")]
+transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, 30, 2.6, 25)
+
+[node name="ForestNorth" type="Node3D" parent="World/Nature" unique_id=1989815176]
+
+[node name="PineN1" parent="World/Nature/ForestNorth" unique_id=1685512803 instance=ExtResource("13_pine")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, -8, 4.5, -34)
+
+[node name="PineN2" parent="World/Nature/ForestNorth" unique_id=660030116 instance=ExtResource("13_pine")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 10, 4.8, -36)
+
+[node name="PineN3" parent="World/Nature/ForestNorth" unique_id=1437204107 instance=ExtResource("13_pine")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 5.2, -40)
+
+[node name="PineN4" parent="World/Nature/ForestNorth" unique_id=713064612 instance=ExtResource("13_pine")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 5.8, -32)
+
+[node name="PineN5" parent="World/Nature/ForestNorth" unique_id=13758278 instance=ExtResource("13_pine")]
+transform = Transform3D(1.15, 0, 0, 0, 1.15, 0, 0, 0, 1.15, 16, 5.5, -33)
+
+[node name="PineN6" parent="World/Nature/ForestNorth" unique_id=1738706987 instance=ExtResource("13_pine")]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -5, 4, -28)
+
+[node name="LakeIsletTrees" type="Node3D" parent="World/Nature" unique_id=1550174088]
+
+[node name="PineIsle1" parent="World/Nature/LakeIsletTrees" unique_id=1651190658 instance=ExtResource("13_pine")]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -2, 2.4, 2)
+
+[node name="DeciduousIsle2" parent="World/Nature/LakeIsletTrees" unique_id=728990036 instance=ExtResource("14_deciduous")]
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, 7, 2.3, -4)
+
+[node name="DeciduousLake1" parent="World/Nature" unique_id=157512371 instance=ExtResource("14_deciduous")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.8, 12)
+
+[node name="DeciduousLake2" parent="World/Nature" unique_id=149622756 instance=ExtResource("14_deciduous")]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -15, 1.8, -12)
+
+[node name="CoastalRocks" type="Node3D" parent="World/Nature" unique_id=1309879538]
+
+[node name="Rock1" parent="World/Nature/CoastalRocks" unique_id=1945676153 instance=ExtResource("16_rock")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -46, 0.3, 42)
+
+[node name="Rock2" parent="World/Nature/CoastalRocks" unique_id=1522897132 instance=ExtResource("16_rock")]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 44, 0.3, 40)
+
+[node name="Rock3" parent="World/Nature/CoastalRocks" unique_id=45562640 instance=ExtResource("16_rock")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 54, 0.3, -12)
+
+[node name="Rock4" parent="World/Nature/CoastalRocks" unique_id=191253269 instance=ExtResource("16_rock")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -54, 0.3, -14)
+
+[node name="Wildlife" type="Node3D" parent="World" unique_id=649333553]
+
+[node name="Duck1" parent="World/Wildlife" unique_id=705700240 instance=ExtResource("17_duck")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.55, -2)
+
+[node name="Duck2" parent="World/Wildlife" unique_id=1768753942 instance=ExtResource("17_duck")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.55, 3)
+
+[node name="Duck3" parent="World/Wildlife" unique_id=1399738149 instance=ExtResource("17_duck")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.55, -7)
+
+[node name="RailwayNetwork" type="Path3D" parent="World" unique_id=700025513]
+curve = SubResource("railway_curve")
+script = ExtResource("30_track_gen")
+
+[node name="TrainController" type="Node3D" parent="World/RailwayNetwork" unique_id=2069647256]
+script = ExtResource("28_train_ctrl")
+speed = 14.0
+
+[node name="CarriageFollower1" type="PathFollow3D" parent="World/RailwayNetwork/TrainController" unique_id=1422471166]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42, 4.8, 26)
+
+[node name="TrainLocomotive" parent="World/RailwayNetwork/TrainController/CarriageFollower1" unique_id=1382715363 instance=ExtResource("20_loco")]
+
+[node name="CarriageFollower2" type="PathFollow3D" parent="World/RailwayNetwork/TrainController" unique_id=1431691816]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42, 4.8, 26)
+
+[node name="TrainCarriage1" parent="World/RailwayNetwork/TrainController/CarriageFollower2" unique_id=666630415 instance=ExtResource("21_carriage")]
+
+[node name="CarriageFollower3" type="PathFollow3D" parent="World/RailwayNetwork/TrainController" unique_id=148699792]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42, 4.8, 26)
+
+[node name="TrainCarriage2" parent="World/RailwayNetwork/TrainController/CarriageFollower3" unique_id=144411778 instance=ExtResource("21_carriage")]
+
+[node name="RoadNetwork" type="Path3D" parent="World" unique_id=1622629021]
+curve = SubResource("road_curve")
+script = ExtResource("31_road_gen")
+
+[node name="TrafficManager" type="Node3D" parent="World/RoadNetwork" unique_id=2046566223]
+script = ExtResource("29_traffic_ctrl")
+
+[node name="FollowerBus" type="PathFollow3D" parent="World/RoadNetwork/TrafficManager" unique_id=776465804]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 2.5, 24)
+
+[node name="VehicleBus" parent="World/RoadNetwork/TrafficManager/FollowerBus" unique_id=2139918334 instance=ExtResource("22_bus")]
+
+[node name="FollowerCar" type="PathFollow3D" parent="World/RoadNetwork/TrafficManager" unique_id=1480237432]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 3.5, -22)
+
+[node name="VehicleCar" parent="World/RoadNetwork/TrafficManager/FollowerCar" unique_id=627130827 instance=ExtResource("24_car")]
+
+[node name="GameHUD" parent="." unique_id=1623277913 instance=ExtResource("27_hud")]
